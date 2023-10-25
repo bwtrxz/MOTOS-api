@@ -1,4 +1,4 @@
-package br.com.fiap.seriesapi;
+package br.com.fiap.motosapi.seriesapi;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

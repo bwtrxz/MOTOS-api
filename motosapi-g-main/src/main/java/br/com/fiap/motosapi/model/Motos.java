@@ -5,8 +5,7 @@ public record Motos(
 	String nomeMoto,
 	String placa,
 	String ano, 
-	int valor)
-{
-	}
+	int valor
+){}
 
 	
