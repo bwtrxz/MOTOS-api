@@ -1,5 +1,6 @@
 package br.com.fiap.motosapi;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import br.com.fiap.motosapi.model.Motos;
@@ -22,14 +23,14 @@ public class MotosResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Motos> listAll(){
+	public List<Motos> listAll() throws SQLException{
 		return service.findAll();
 	}
 	
 	@GET
 	@Path("{id")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response findById(@PathParam("id") Long id) {
+	public Response findById(@PathParam("id") Long id) throws SQLException {
 		var motos = service.findById(id);
 		
 		if (motos == null) {
@@ -54,7 +55,7 @@ public class MotosResource {
 		
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response cadastrar(Motos motos) {
+	public Response cadastrar(Motos motos) throws SQLException {
 		if (!service.save(motos)) {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
@@ -65,15 +66,20 @@ public class MotosResource {
 	@PUT
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response atualizar(@PathParam("id") Long id, Motos motos) {
+    public Response atualizar(@PathParam("id") Long id, Motos motos) throws SQLException {
     	var motosEncontrada = service.findById(id);
     	
     	if(motosEncontrada == null)
     		return Response.status(Response.Status.NOT_FOUND).build();
     			
     			
-    	if (!service.update(motos))
-    		return Response.status(Response.Status.BAD_REQUEST).build();
+    	try {
+			if (!service.update(motos))
+				return Response.status(Response.Status.BAD_REQUEST).build();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
     	return Response.ok(motos).build();
     	

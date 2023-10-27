@@ -1,33 +1,60 @@
 package br.com.fiap.motosapi.data;
 
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
+import br.com.fiap.connectionFactory.ConnectionFactory;
 import br.com.fiap.motosapi.model.Motos;
 
 public class MotosDao {
-	
-	List<Motos> motos = new ArrayList<>();
-	
-	public void MotoDao() {
-		motos = List.of (
-				new Motos(1, "Lost", "Um aviao cai", "http..", 1200),
-				new Motos(1, "Os outros", "Só tratamento top", "http..", 1200),
-				new Motos(1, "Treata", "Começa batendo", "http..", 1200)
-				);
+
+    private Connection conexao;
+
+    public MotosDao() throws SQLException {
+        this.conexao = ConnectionFactory.getConnection();
+    }
+
+    public void insert(Motos moto) throws SQLException {
+        String sql = "INSERT INTO MOTOS (marca, placa, ano, cilindradas) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+            statement.setInt(1, moto.id());
+            statement.setString(2, moto.nomeMoto());
+            statement.setString(3, moto.placa());
+            statement.setString(4, moto.ano());
+            statement.setInt(5, moto.valor());
+            statement.executeUpdate();
+        }
+    }
+
+    public void update(Motos moto) throws SQLException {
+        String sql = "UPDATE MOTOS SET marca=?, placa=?, ano=?, cilindradas=? WHERE id=?";
+        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+        	 statement.setInt(1, moto.id());
+             statement.setString(2, moto.nomeMoto());
+             statement.setString(3, moto.placa());
+             statement.setString(4, moto.ano());
+             statement.setInt(5, moto.valor());
+            statement.executeUpdate();
+        }
+    }
+
+    public void delete(long id) throws SQLException {
+        String sql = "DELETE FROM MOTOS WHERE id=?";
+        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        }
+    }
+
+	public List<Motos> findAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
-	public List<Motos> findAll(){
-		return motos;
-	}
-		
-	public Motos findById(Long id) {
-	// SELECT * FROM MOTOS WHERE ID=?
-		return motos
-				.stream()
-				.filter(moto -> moto.id() == id)
-				.findFirst()
-				.orElse(null);
-				
+
+	public Motos findById(long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

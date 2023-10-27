@@ -7,5 +7,3 @@ public record Motos(
 	String ano, 
 	int valor
 ){}
-
-	
