@@ -43,4 +43,9 @@ public class MotosService {
         dao.update(motos);
         return true;
     }
+
+	public Object findById() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

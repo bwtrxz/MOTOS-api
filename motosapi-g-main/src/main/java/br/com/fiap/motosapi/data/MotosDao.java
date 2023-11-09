@@ -3,18 +3,22 @@ package br.com.fiap.motosapi.data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.fiap.connectionFactory.ConnectionFactory;
 import br.com.fiap.motosapi.model.Motos;
+
 
 public class MotosDao {
 
     private Connection conexao;
 
     public MotosDao() throws SQLException {
-        this.conexao = ConnectionFactory.getConnection();
+    	 conexao = ConnectionFactory.getConnection();
     }
+    
+    List <Motos> motos = new ArrayList<>();
 
     public void insert(Motos moto) throws SQLException {
         String sql = "INSERT INTO MOTOS (marca, placa, ano, cilindradas) VALUES (?, ?, ?, ?)";
